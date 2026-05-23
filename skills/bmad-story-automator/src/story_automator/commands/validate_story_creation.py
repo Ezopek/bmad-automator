@@ -4,7 +4,7 @@ import json
 import os
 from pathlib import Path
 
-from story_automator.core.diagnostics import DiagnosticIssue, serialize_issues
+from story_automator.core.diagnostics import DiagnosticIssue, redact_actual, serialize_issues
 from story_automator.core.runtime_policy import PolicyError
 from story_automator.core.success_verifiers import create_story_artifact, resolve_success_contract
 
@@ -74,7 +74,7 @@ def cmd_validate_story_creation(args: list[str]) -> int:
         if valid_override is not None:
             valid = valid_override
         if reason_override is not None:
-            reason = reason_override
+            reason = str(redact_actual(reason_override))
         response: dict[str, object] = {
             "valid": valid,
             "verified": valid,
